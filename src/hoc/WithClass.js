@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-// you can use a regular function that returns a stateless component
+// you can use a regular function that returns a reusable stateless component, passing in unknown props
 // const withClass = (WrappedComponent, className) => {
 //   return (props) => (
 //     <div className={className}>
@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 //   )
 // }
 
-// or you can use a regular function that returns a stateful component with an anonymous class
+// or you can use a regular function that returns a reusable stateful component with an anonymous class, passing in unknown props
 const withClass = (WrappedComponent, className) => {
   return class extends Component {
     render () {
