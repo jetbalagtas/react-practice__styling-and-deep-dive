@@ -28,7 +28,9 @@ class App extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[UPDATE App.js] Inside shouldComponentUpdate', nextProps, nextState);
-    return true;
+    return nextState.persons !== this.state.persons ||
+      nextState.showPersons !== this.state.showPersons;
+    // return true; // returning true here causes the lifecycle to run even if there are no changes, costing performance
   }
 
   componentWillUpdate(nextProps, nextState) {

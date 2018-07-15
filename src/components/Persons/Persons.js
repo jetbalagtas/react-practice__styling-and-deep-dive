@@ -22,7 +22,10 @@ class Persons extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[UPDATE Persons.js] Inside shouldComponentUpdate', nextProps, nextState);
-    return nextProps.persons !== this.props.persons;
+    return nextProps.persons !== this.props.persons ||
+      nextProps.changed !== this.props.changed ||
+      nextProps.click !== this.props.click;
+    // return true; // returning true here causes the lifecycle to run even if there are no changes, costing performance
   }
 
   componentWillUpdate(nextProps, nextState) {
