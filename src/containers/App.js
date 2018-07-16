@@ -16,7 +16,8 @@ class App extends PureComponent {
          { id: 'oiuo3', name: 'Elisha', age: 21 }
       ],
       otherState: 'some other value',
-      showPersons: false
+      showPersons: false,
+      toggleClicked: 0
     }
   }
 
@@ -71,7 +72,7 @@ class App extends PureComponent {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState( {persons: persons} )
+    this.setState({persons: persons})
   }
 
   deletePersonHandler = (personIndex) => {
@@ -83,7 +84,23 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow});
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    });
+    // TAKEAWAY:
+    // this below is the incorrect way bec setState is a method executed asynchronously by React
+    // which means you cannot rely on this.state inside setState to really reflect the latest version of the state
+    // if you call setState in another part of the app around the same time, it might finish before this one
+    // so this.state in below might not be correct
+    // the better syntax to call setState, if you plan on using this.state, is with a function syntax above wherein:
+    // prevState can't be mutated from anywhere else in the app, and is the best practice of mutating state if you rely on a previous state
+    // this.setState({
+    //   showPersons: !doesShow,
+    //   toggleClicked: this.state.toggleClicked + 1
+    // });
   }
 
   render() {
