@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Person.css';
-import withClass from '../../../hoc/withClass';
+import withClass from '../../../hoc/WithClass';
 import Aux from '../../../hoc/Aux';
 
 class Person extends Component {
   constructor(props) {
     super(props);
     console.log('[Person.js] Inside Constructor');
+    this.inputElement = React.createRef(); // new in React ^16.3 creates a wrapper for the reference
   }
 
   componentWillMount() {
@@ -18,8 +19,12 @@ class Person extends Component {
   componentDidMount() {
     console.log('[Person.js] Inside componentDidMount()');
     if (this.props.position === 0) {
-      this.inputElement.focus();
+      this.inputElement.current.focus(); // .current refers to the underlying DOM element
     }
+  }
+
+  focus() {
+    this.inputElement.current.focus();
   }
 
   render () {
@@ -29,7 +34,7 @@ class Person extends Component {
         <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
         <p>{this.props.children}</p>
         <input
-          ref={(inp) => {this.inputElement = inp}}
+          ref={this.inputElement} // from React.createRef() in the constructor above
           type='text'
           onChange={this.props.changed}
           value={this.props.name} />
