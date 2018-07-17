@@ -25,6 +25,7 @@ class App extends PureComponent {
     }
   }
 
+  // discouraged use in React ^16.3 bec not that useful and easy to use incorrectly
   componentWillMount() {
     console.log('[App.js] Inside componentWillMount()');
   }
@@ -42,8 +43,24 @@ class App extends PureComponent {
   //   // return true; // returning true here causes the lifecycle to run even if there are no changes, costing performance
   // }
 
+  // discouraged use in React ^16.3 bec not that useful and easy to use incorrectly
   componentWillUpdate(nextProps, nextState) {
     console.log('[UPDATE App.js] Inside componentWillUpdate', nextProps, nextState);
+  }
+
+  // executes whenever props are updated and gives you a chance to update your state at the same time
+  // you oftentimes don't want this bec state should rarely be coupled with props
+  // but sometimes, you receive new props and you want to update your local state
+  // not something you should overuse but nice if you have a component that needs to bring state and props in sync
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('[UPDATE App.js] Inside getDerivedStateFromProps', nextProps, prevState);
+    return prevState;
+  }
+
+  // useful for example, when you want to save the user's last scrolling position then return the user to it within componentDidUpdate
+  // actual React example: https://reactjs.org/docs/react-component.html#getsnapshotbeforeupdate
+  getSnapshotBeforeUpdate() {
+    console.log('[UPDATE App.js] Inside getSnapshotBeforeUpdate');
   }
 
   componentDidUpdate() {
